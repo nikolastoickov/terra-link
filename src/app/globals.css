@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+:root {
+  --color-navy: oklch(0.20 0.03 235);
+  --color-brown: oklch(0.32 0.045 55);
+  --color-gold: oklch(0.74 0.12 82);
+  --color-cream: oklch(0.97 0.012 85);
+  --color-ink: oklch(0.18 0.01 95);
+
+  --background: var(--color-cream);
+  --foreground: var(--color-ink);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-navy: var(--color-navy);
+  --color-brown: var(--color-brown);
+  --color-gold: var(--color-gold);
+  --color-cream: var(--color-cream);
+  --color-ink: var(--color-ink);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
