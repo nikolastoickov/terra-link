@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Logo from "./Logo";
 
 export default function Footer() {
@@ -22,12 +23,12 @@ export default function Footer() {
         </div>
         <div className="flex flex-col gap-2 text-sm text-cream/80">
           <span className="font-serif text-base text-cream">Krenite odmah</span>
-          <a href="/procena-zemljista" className="hover:text-gold">
+          <Link href="/procena-zemljista" className="hover:text-gold">
             Procenite svoje zemljište
-          </a>
-          <a href="/investitori" className="hover:text-gold">
+          </Link>
+          <Link href="/investitori" className="hover:text-gold">
             Tražim parcelu za investiciju
-          </a>
+          </Link>
         </div>
       </div>
       <div className="border-t border-cream/10 px-6 py-4 text-center text-xs text-cream/50">
