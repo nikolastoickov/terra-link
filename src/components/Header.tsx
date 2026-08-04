@@ -29,7 +29,7 @@ export default function Header() {
           href="tel:+381641112104"
           className="rounded-full bg-gold px-4 py-2 text-sm font-semibold text-navy sm:hidden"
         >
-          Procenite zemljište besplatno
+          Besplatna procena
         </a>
       </div>
     </header>
