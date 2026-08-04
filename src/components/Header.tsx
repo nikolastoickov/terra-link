@@ -18,19 +18,19 @@ export default function Header() {
           <Link href="/investitori" className="hover:text-brown">
             Za investitore
           </Link>
-          <Link
-            href="/procena-zemljista"
+          <a
+            href="tel:+381641112104"
             className="rounded-full bg-gold px-5 py-2.5 text-navy transition hover:brightness-95"
           >
             Procenite zemljište besplatno
-          </Link>
+          </a>
         </nav>
-        <Link
-          href="/procena-zemljista"
+        <a
+          href="tel:+381641112104"
           className="rounded-full bg-gold px-4 py-2 text-sm font-semibold text-navy sm:hidden"
         >
-          Procena
-        </Link>
+          Procenite zemljište besplatno
+        </a>
       </div>
     </header>
   );
