@@ -8,8 +8,9 @@ export default function Hero() {
           Ne prihvatajte prvu ponudu koju dobijete.
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-ink/80 sm:text-xl">
-          Sarađujemo sa 20+ proverenih investitora — besplatno analiziramo vašu
-          parcelu i pronalazimo najbolju moguću opciju.
+          Sarađujemo sa 20+ proverenih investitora —{" "}
+          <strong className="font-semibold text-navy">besplatno</strong>{" "}
+          analiziramo vašu parcelu i pronalazimo najbolju moguću opciju.
         </p>
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Button href="/procena-zemljista" variant="primary">
