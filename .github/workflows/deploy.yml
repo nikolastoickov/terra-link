@@ -33,6 +33,7 @@ jobs:
           GITHUB_PAGES: "true"
           NEXT_PUBLIC_GTM_ID: ${{ vars.NEXT_PUBLIC_GTM_ID }}
           NEXT_PUBLIC_GA_ID: ${{ vars.NEXT_PUBLIC_GA_ID }}
+          NEXT_PUBLIC_CLARITY_ID: ${{ vars.NEXT_PUBLIC_CLARITY_ID }}
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
