@@ -7,6 +7,7 @@ import BookingCalendar from "./BookingCalendar";
 export default function ContactSection() {
   const [sent, setSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   return (
     <section id="kontakt" className="bg-white">
@@ -37,13 +38,26 @@ export default function ContactSection() {
             ) : (
               <form
                 className="mt-6 space-y-4"
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault();
                   setSubmitting(true);
-                  window.setTimeout(() => {
-                    setSubmitting(false);
+                  setError(null);
+                  const fields = Object.fromEntries(
+                    new FormData(e.currentTarget)
+                  ) as Record<string, string>;
+                  try {
+                    const res = await fetch("/api/contact", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ formType: "contact", fields }),
+                    });
+                    if (!res.ok) throw new Error("Slanje nije uspelo");
                     setSent(true);
-                  }, 600);
+                  } catch {
+                    setError("Došlo je do greške. Pokušajte ponovo.");
+                  } finally {
+                    setSubmitting(false);
+                  }
                 }}
               >
                 <label className="block">
@@ -52,6 +66,7 @@ export default function ContactSection() {
                   </span>
                   <input
                     type="text"
+                    name="Ime i prezime"
                     required
                     placeholder="Marko Marković"
                     className="w-full rounded-xl border border-navy/15 bg-cream px-4 py-3 text-ink placeholder:text-ink/40 transition-colors focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/30"
@@ -63,8 +78,9 @@ export default function ContactSection() {
                   </span>
                   <input
                     type="text"
+                    name="Telefon ili email"
                     required
-                    placeholder="064 111 21 04"
+                    placeholder="060 123 45 67"
                     className="w-full rounded-xl border border-navy/15 bg-cream px-4 py-3 text-ink placeholder:text-ink/40 transition-colors focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/30"
                   />
                 </label>
@@ -74,11 +90,13 @@ export default function ContactSection() {
                   </span>
                   <textarea
                     required
+                    name="Poruka"
                     rows={4}
                     placeholder="Recite nam nešto o vašem zemljištu ili pitanju..."
                     className="w-full rounded-xl border border-navy/15 bg-cream px-4 py-3 text-ink placeholder:text-ink/40 transition-colors focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/30"
                   />
                 </label>
+                {error && <p className="text-sm text-red-600">{error}</p>}
                 <Button
                   type="submit"
                   variant="primary"

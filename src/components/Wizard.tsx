@@ -3,9 +3,11 @@
 import { useState, type ReactNode } from "react";
 
 export type WizardStepProps = {
-  onNext: () => void;
+  onNext: (fields?: Record<string, string>) => void;
   onBack: () => void;
   isFirst: boolean;
+  submitting: boolean;
+  error: string | null;
 };
 
 export type WizardStep = {
@@ -16,19 +18,41 @@ export type WizardStep = {
 type WizardProps = {
   steps: WizardStep[];
   thankYou: ReactNode;
+  formType: string;
 };
 
-export default function Wizard({ steps, thankYou }: WizardProps) {
+export default function Wizard({ steps, thankYou, formType }: WizardProps) {
   const [index, setIndex] = useState(0);
   const [done, setDone] = useState(false);
+  const [data, setData] = useState<Record<string, string>>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const total = steps.length;
 
-  function goNext() {
-    if (index === total - 1) {
-      setDone(true);
-    } else {
+  async function goNext(fields?: Record<string, string>) {
+    const merged = { ...data, ...fields };
+    setData(merged);
+
+    if (index !== total - 1) {
       setIndex((i) => Math.min(i + 1, total - 1));
+      return;
+    }
+
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ formType, fields: merged }),
+      });
+      if (!res.ok) throw new Error("Slanje nije uspelo");
+      setDone(true);
+    } catch {
+      setError("Došlo je do greške. Pokušajte ponovo.");
+    } finally {
+      setSubmitting(false);
     }
   }
 
@@ -58,7 +82,13 @@ export default function Wizard({ steps, thankYou }: WizardProps) {
           />
         </div>
       </div>
-      {step.render({ onNext: goNext, onBack: goBack, isFirst: index === 0 })}
+      {step.render({
+        onNext: goNext,
+        onBack: goBack,
+        isFirst: index === 0,
+        submitting,
+        error,
+      })}
     </div>
   );
 }

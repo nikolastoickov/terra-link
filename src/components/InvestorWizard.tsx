@@ -14,7 +14,8 @@ const steps: WizardStep[] = [
         className="space-y-5"
         onSubmit={(e) => {
           e.preventDefault();
-          onNext();
+          const form = new FormData(e.currentTarget);
+          onNext(Object.fromEntries(form) as Record<string, string>);
         }}
       >
         <h2 className="font-serif text-2xl font-semibold text-navy">
@@ -30,6 +31,7 @@ const steps: WizardStep[] = [
           </span>
           <input
             type="text"
+            name="Koeficijent izgrađenosti"
             required
             placeholder="npr. 1.2"
             className={inputClass}
@@ -41,6 +43,7 @@ const steps: WizardStep[] = [
           </span>
           <input
             type="text"
+            name="Lokacija"
             required
             placeholder="Grad / opština"
             className={inputClass}
@@ -50,7 +53,7 @@ const steps: WizardStep[] = [
           <span className="mb-1.5 block text-sm font-medium text-navy">
             Dodatne napomene ili potrebe (opciono)
           </span>
-          <textarea rows={3} className={inputClass} />
+          <textarea rows={3} name="Napomene" className={inputClass} />
         </label>
         <Button type="submit" variant="primary" className="w-full">
           Dalje
@@ -60,12 +63,13 @@ const steps: WizardStep[] = [
   },
   {
     label: "Kontakt",
-    render: ({ onNext, onBack }) => (
+    render: ({ onNext, onBack, submitting, error }) => (
       <form
         className="space-y-5"
         onSubmit={(e) => {
           e.preventDefault();
-          onNext();
+          const form = new FormData(e.currentTarget);
+          onNext(Object.fromEntries(form) as Record<string, string>);
         }}
       >
         <h2 className="font-serif text-2xl font-semibold text-navy">
@@ -78,20 +82,25 @@ const steps: WizardStep[] = [
           <span className="mb-1.5 block text-sm font-medium text-navy">
             Ime firme / ime i prezime
           </span>
-          <input type="text" required className={inputClass} />
+          <input type="text" name="Ime firme / ime i prezime" required className={inputClass} />
         </label>
         <label className="block">
           <span className="mb-1.5 block text-sm font-medium text-navy">
             Broj telefona
           </span>
-          <input type="tel" required className={inputClass} />
+          <input type="tel" name="Telefon" required className={inputClass} />
         </label>
+        {error && <p className="text-sm text-red-600">{error}</p>}
         <div className="flex gap-3">
           <Button variant="secondary" onClick={onBack} className="flex-1">
             Nazad
           </Button>
-          <Button type="submit" variant="primary" className="flex-1">
-            Pošalji upit
+          <Button
+            type="submit"
+            variant="primary"
+            className={`flex-1 ${submitting ? "opacity-70" : ""}`}
+          >
+            {submitting ? "Slanje..." : "Pošalji upit"}
           </Button>
         </div>
       </form>
@@ -110,5 +119,5 @@ const thankYou = (
 );
 
 export default function InvestorWizard() {
-  return <Wizard steps={steps} thankYou={thankYou} />;
+  return <Wizard steps={steps} thankYou={thankYou} formType="investor" />;
 }
