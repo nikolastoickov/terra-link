@@ -45,7 +45,7 @@ export async function POST(req: Request) {
     .join("");
 
   const { error } = await resend.emails.send({
-    from: `Terra Link <formulari@${process.env.RESEND_EMAIL_DOMAIN}>`,
+    from: "Terra Link <onboarding@resend.dev>",
     to: [TO_EMAIL],
     subject: `Novi upit — ${label}`,
     html: `<h2>Novi upit: ${label}</h2>${rows}`,
