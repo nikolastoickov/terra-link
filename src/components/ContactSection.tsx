@@ -46,7 +46,7 @@ export default function ContactSection() {
                     new FormData(e.currentTarget)
                   ) as Record<string, string>;
                   try {
-                    const res = await fetch("/api/contact", {
+                    const res = await fetch("/api/contact/", {
                       method: "POST",
                       headers: { "Content-Type": "application/json" },
                       body: JSON.stringify({ formType: "contact", fields }),
